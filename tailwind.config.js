@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#FF4500',
-        background: '#1C1C1E',
-        card: '#2C2C2E',
-        text: '#F2F2F7',
-        textSecondary: '#8E8E93',
+        primary: '#FF4500', // Sunset Orange
+        background: '#1C1C1E', // Dark Charcoal
+        card: '#2C2C2E', // Light Grey
+        text: '#F2F2F7', // Off-White
+        textSecondary: '#8E8E93', // Grey text
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

@@ -3,51 +3,75 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, MessageSquare, CreditCard, ChevronDown, ChevronUp, Smartphone, ShieldCheck, Zap } from 'lucide-react'
 import StoreButton from '../components/StoreButtons'
+import PhoneMockup from '../components/PhoneMockup'
+// Logo - using public path since it's in public folder
+const logoImg = '/logo.png'
 
 // FAQ Data
 const FAQS = [
   {
-    question: "Is it free to use?",
-    answer: "Yes, StreetHeat is 100% free for foodies. Find food trucks, see what's open, and get directions—all at no cost."
+    question: "Is StreetHeat free to use?",
+    answer: "Yes! StreetHeat is 100% free for foodies. You can find trucks, verify open status, and view live updates without paying a dime."
+  },
+  {
+    question: "How do 'Live Updates' work?",
+    answer: "It's like Waze for food. Users at the location can post real-time status updates—like 'Line is short' or 'Ran out of Asada'—to help others know what to expect. These updates expire after 24 hours to ensure info is always fresh."
   },
   {
     question: "I own a food truck. How do I claim my spot?",
-    answer: "Download the app and tap 'Claim Your Spot' in the menu. Verify your business, add your menu and hours, and start connecting with customers instantly."
+    answer: "Find your truck on the map, scroll to the bottom of the details card, and tap 'Own this business? Claim it.' You'll need to upload a photo of your business license or a selfie inside the truck to verify ownership."
   },
   {
-    question: "Are there pro features for vendors?",
-    answer: "Yes! Vendors can upgrade to Pro for advanced analytics, priority placement, menu management, and customer messaging tools."
-  },
-  {
-    question: "Which cities are you in?",
-    answer: "We're currently launching in Madera, CA, with plans to expand to Fresno, Bakersfield, and the Central Valley. Check the app for the latest locations."
+    question: "What do I get with StreetHeat Pro?",
+    answer: "Pro owners unlock premium marketing tools: A professional Photo Carousel header, the ability to display accepted Payment Methods (Zelle, CashApp, Card, etc.), and direct Social Media links (Instagram, TikTok) on their profile."
   }
 ]
 
 // Testimonials Data
 const TESTIMONIALS = [
   {
-    quote: "Finally, an app that actually knows where the taco trucks are. Game changer!",
+    quote: "Finally, an app that actually knows where the taco trucks are. Game changer for finding my favorite spots!",
     author: "Maria Rodriguez",
     role: "Local Foodie"
   },
   {
-    quote: "As a street food scout, this app saves me hours of driving around. The real-time updates are spot-on.",
+    quote: "As a street food scout, this app saves me hours of driving around. The real-time updates are spot-on and the community verification is brilliant.",
     author: "James Chen",
     role: "Street Scout"
   },
   {
-    quote: "Claiming our spot was so easy. We've seen a 40% increase in customers since joining StreetHeat.",
+    quote: "Claiming our spot was so easy. We've seen a 40% increase in customers since joining StreetHeat. The live verification feature builds trust.",
     author: "Carlos & Rosa Martinez",
     role: "Vendor Owner"
   }
 ]
 
 function LandingPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index)
+  }
 
   return (
     <div className="min-h-screen bg-background text-text overflow-x-hidden">
+      {/* Sticky Navbar */}
+      <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/10">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center no-underline cursor-pointer">
+              <img src={logoImg} alt="StreetHeat Logo" className="h-32 object-contain" />
+            </Link>
+            <Link
+              to="/business-guide"
+              className="px-6 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition-colors cursor-pointer no-underline"
+            >
+              Partner Guide
+            </Link>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
         {/* Glow Effect Background */}
@@ -91,9 +115,9 @@ function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-xl text-textSecondary mb-8 leading-relaxed max-w-lg"
+                className="text-xl text-textSecondary mb-8 leading-relaxed"
               >
-                Find the best taco trucks, stands, and pop-ups in real-time. Verified by the community, powered by locals.
+                Find taco trucks & pop-ups verified in real-time.
               </motion.p>
 
               <motion.div
@@ -114,24 +138,7 @@ function LandingPage() {
               transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
               className="flex justify-center md:justify-end"
             >
-              {/* iPhone Frame */}
-              <div className="relative">
-                <div className="relative rounded-[3rem] bg-black p-2 shadow-2xl border-4 border-black">
-                  {/* Screen Bezel */}
-                  <div className="rounded-[2.5rem] overflow-hidden bg-black">
-                    {/* Notch */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
-                    {/* Screen Content */}
-                    <div className="relative w-full max-w-[300px]">
-                      <img
-                        src="/mockup-map.png"
-                        alt="StreetHeat Map View"
-                        className="w-full h-auto block"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <PhoneMockup imageSrc="/mockup-map.png" alt="StreetHeat Map View" />
             </motion.div>
           </div>
         </div>
@@ -140,7 +147,7 @@ function LandingPage() {
       {/* Features Section - Zig-Zag Layout */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl space-y-24">
-          {/* Feature 1: Live Verification */}
+          {/* Row 1: Live Verification */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -149,25 +156,23 @@ function LandingPage() {
             className="flex flex-col md:flex-row gap-12 items-center"
           >
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 mb-4">
-                <ShieldCheck size={20} />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary mb-4">
+                <Zap size={20} />
                 <span className="text-sm font-medium">Live Verification</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 Green Dot = Open
               </h2>
               <p className="text-xl text-textSecondary leading-relaxed">
-                See at a glance which trucks are open right now. Green means serving, red means closed. No more wasted trips.
+                See at a glance which trucks are open right now. Green means serving, red means closed. Our "I'm Here" button lets customers verify locations in real-time, so you never waste a trip.
               </p>
             </div>
             <div className="flex-1 flex justify-center">
-              <div className="w-full max-w-md h-96 bg-card rounded-2xl flex items-center justify-center border border-white/10">
-                <p className="text-textSecondary">Live Map Screenshot</p>
-              </div>
+              <PhoneMockup imageSrc="/detail.png" alt="Live Verification Map" />
             </div>
           </motion.div>
 
-          {/* Feature 2: Payment Methods */}
+          {/* Row 2: Know Before You Go */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -176,7 +181,7 @@ function LandingPage() {
             className="flex flex-col md:flex-row-reverse gap-12 items-center"
           >
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 mb-4">
                 <CreditCard size={20} />
                 <span className="text-sm font-medium">Payment Info</span>
               </div>
@@ -184,17 +189,15 @@ function LandingPage() {
                 Know Before You Go
               </h2>
               <p className="text-xl text-textSecondary leading-relaxed">
-                See accepted payment methods (Cash, Card, Venmo) before you arrive. Never be caught without the right payment.
+                See accepted payment methods (Cash, Card, Venmo, Zelle) before you arrive. Our Premium Chip feature shows exactly what each vendor accepts, so you're never caught without the right payment.
               </p>
             </div>
             <div className="flex-1 flex justify-center">
-              <div className="w-full max-w-md h-96 bg-card rounded-2xl flex items-center justify-center border border-white/10">
-                <p className="text-textSecondary">Payment Methods Screenshot</p>
-              </div>
+              <PhoneMockup imageSrc="/detail.png" alt="Payment Methods" />
             </div>
           </motion.div>
 
-          {/* Feature 3: Real-Time Intel */}
+          {/* Row 3: Real-Time Intel */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -211,20 +214,18 @@ function LandingPage() {
                 Real-Time Intel
               </h2>
               <p className="text-xl text-textSecondary leading-relaxed">
-                Chat with people in line. Ask about wait times, what's good today, or if they're running low on your favorite item.
+                See real-time status reports from people at the truck. Know if the line is long or if they are sold out before you drive.
               </p>
             </div>
             <div className="flex-1 flex justify-center">
-              <div className="w-full max-w-md h-96 bg-card rounded-2xl flex items-center justify-center border border-white/10">
-                <p className="text-textSecondary">Chat Screenshot</p>
-              </div>
+              <PhoneMockup imageSrc="/intel.png" alt="Real-Time Updates" />
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 bg-card/50">
+      <section className="py-20 px-4 bg-card/30">
         <div className="container mx-auto max-w-6xl">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -243,14 +244,14 @@ function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-background rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-colors"
+                className="bg-card rounded-2xl p-8 border border-white/5 hover:border-white/10 transition-colors"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Smartphone className="text-primary" size={20} />
+                    <ShieldCheck className="text-primary" size={20} />
                   </div>
                 </div>
-                <p className="text-text text-lg mb-4 leading-relaxed">
+                <p className="text-textSecondary text-lg mb-4 leading-relaxed">
                   "{testimonial.quote}"
                 </p>
                 <div>
@@ -263,7 +264,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Business CTA Section */}
+      {/* Business CTA Banner */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <motion.div
@@ -271,7 +272,7 @@ function LandingPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative rounded-3xl p-12 md:p-16 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/5 border-2 border-primary/50 overflow-hidden"
+            className="relative rounded-3xl p-12 md:p-16 bg-gradient-to-r from-orange-900/80 to-background border-2 border-primary/50 overflow-hidden"
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -284,11 +285,11 @@ function LandingPage() {
                 Own a Food Truck?
               </h2>
               <p className="text-xl text-textSecondary mb-8 leading-relaxed">
-                Claim your spot today and connect with thousands of hungry customers. Manage your menu, hours, and location in real-time.
+                Claim your spot and turn your pin into a destination. Manage your profile, menu, and hours in real-time.
               </p>
               <Link
                 to="/business-guide"
-                className="inline-block bg-white text-black font-semibold py-4 px-8 rounded-xl hover:bg-gray-100 transition-colors no-underline"
+                className="inline-block bg-white text-black font-semibold py-4 px-8 rounded-full hover:scale-105 hover:bg-gray-100 transition-all duration-200 cursor-pointer no-underline"
               >
                 View Partner Guide
               </Link>
@@ -299,7 +300,7 @@ function LandingPage() {
 
       {/* FAQ Section */}
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-3xl">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -317,21 +318,26 @@ function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-card rounded-xl border border-white/10 overflow-hidden hover:border-primary/50 transition-colors"
+                className="bg-card rounded-xl border border-white/10 overflow-hidden hover:border-white/20 transition-colors"
               >
                 <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                  onClick={() => toggleFaq(index)}
+                  className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   <span className="text-xl font-semibold text-white pr-4">{faq.question}</span>
-                  {openFaq === index ? (
-                    <ChevronUp className="text-primary flex-shrink-0" size={24} />
-                  ) : (
-                    <ChevronDown className="text-textSecondary flex-shrink-0" size={24} />
-                  )}
+                  <motion.div
+                    animate={{ rotate: openFaqIndex === index ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {openFaqIndex === index ? (
+                      <ChevronUp className="text-primary flex-shrink-0" size={24} />
+                    ) : (
+                      <ChevronDown className="text-textSecondary flex-shrink-0" size={24} />
+                    )}
+                  </motion.div>
                 </button>
                 <AnimatePresence>
-                  {openFaq === index && (
+                  {openFaqIndex === index && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
@@ -352,32 +358,40 @@ function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-background py-8 px-4">
+      <footer className="border-t border-white/10 bg-background py-12 px-4">
         <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-textSecondary text-sm">
-              © 2025 StreetHeat. All rights reserved.
-            </p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-3">
+              <img src={logoImg} alt="StreetHeat Logo" className="w-10 h-10 object-contain" />
+              <span className="text-2xl font-bold text-white">
+                Street<span className="text-primary">Heat</span>
+              </span>
+            </div>
             <div className="flex gap-6">
               <Link
                 to="/terms"
-                className="text-textSecondary hover:text-primary transition-colors text-sm no-underline"
+                className="text-textSecondary hover:text-primary transition-colors text-sm no-underline cursor-pointer"
               >
                 Terms
               </Link>
               <Link
                 to="/privacy"
-                className="text-textSecondary hover:text-primary transition-colors text-sm no-underline"
+                className="text-textSecondary hover:text-primary transition-colors text-sm no-underline cursor-pointer"
               >
                 Privacy
               </Link>
               <a
                 href="mailto:support@streetheat.com"
-                className="text-textSecondary hover:text-primary transition-colors text-sm no-underline"
+                className="text-textSecondary hover:text-primary transition-colors text-sm no-underline cursor-pointer"
               >
                 Support
               </a>
             </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-white/10 text-center">
+            <p className="text-textSecondary text-sm">
+              © 2025 BaronXDev. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>

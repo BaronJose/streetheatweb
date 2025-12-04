@@ -58,7 +58,7 @@ function StoreButton({ store, url }: StoreButtonProps) {
       href={url || defaultUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl border border-white/20 hover:scale-105 transition-transform duration-200 no-underline"
+      className="flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl border border-white/20 hover:scale-105 transition-transform duration-200 no-underline cursor-pointer"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >

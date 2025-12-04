@@ -1,11 +1,12 @@
 interface PhoneMockupProps {
   imageSrc: string
   alt?: string
+  className?: string
 }
 
-function PhoneMockup({ imageSrc, alt = "App screenshot" }: PhoneMockupProps) {
+function PhoneMockup({ imageSrc, alt = "App screenshot", className = "" }: PhoneMockupProps) {
   return (
-    <div className="relative w-full max-w-[300px] mx-auto drop-shadow-2xl">
+    <div className={`relative w-full max-w-[300px] mx-auto drop-shadow-2xl ${className}`}>
       {/* Phone Frame */}
       <div className="relative rounded-[3rem] bg-black p-2 shadow-2xl border-4 border-black">
         {/* Screen Bezel */}
@@ -27,4 +28,3 @@ function PhoneMockup({ imageSrc, alt = "App screenshot" }: PhoneMockupProps) {
 }
 
 export default PhoneMockup
-

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, MessageSquare, CreditCard, ChevronDown, ChevronUp, Smartphone, ShieldCheck, Zap } from 'lucide-react'
+import { MessageSquare, CreditCard, ChevronDown, ChevronUp, ShieldCheck, Zap } from 'lucide-react'
 import StoreButton from '../components/StoreButtons'
 import PhoneMockup from '../components/PhoneMockup'
 // Logo - using public path since it's in public folder
